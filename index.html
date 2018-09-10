@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="de-DE">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="de-DE">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="de-DE">
+<!--<![endif]-->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Timer</title>
 
+
+
+
+<link rel="stylesheet" href="timer.css" type="text/css" media="all">
+</head>
+
+<body class="">
+
+
+
+<div class="ss-banner-1 ss-banner-wrapper" id="timerwebx">
+  <div class="ss-banner-top">
+    <div style="display: block;" class="ss-banner">
+      <div class="ss-banner-content">
+        <div class="ss-timer-37 ss-banner-element-wrapper ss-banner-timer-wrapper ss-styled-timer ss-timer-style-1">
+          <div class="ss-timer">
+            <div class="ss-timer-days"> <span class="ss-timer-days-label ss-timer-label">tage</span> <span class="ss-timer-value ss-days"></span></div>
+            <div class="ss-timer-hours"> <span class="ss-timer-hours-label ss-timer-label">stunden</span> <span class="ss-timer-value ss-hours"></span> </div>
+            <div class="ss-timer-minutes"> <span class="ss-timer-minutes-label ss-timer-label">minuten</span> <span class="ss-timer-value ss-minutes"></span> </div>
+            <div class="ss-timer-seconds"> <span class="ss-timer-seconds-label ss-timer-label">sekunden</span> <span class="ss-timer-value ss-seconds"></span> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript">
+//redirect url
+var redirect='https://www.google.com/'
+
+//check first time
+if(! $.cookie('cookfirsttime')){
+//set the cookie firsttime
+alert('First Time Visit');
+$.cookie('cookfirsttime', new Date().getTime());
+}
+else{
+//days
+
+var hours24=86400; //1 days
+var hours48=86400*2; // 2 days
+var hours120=86400*5; //5 days
+var hours144=86400*6; //6 days
+var hours168=86400*7; //7 days
+
+
+//test datas minutes - uncomment for test
+/*
+var hours24=10*6; //1 min
+var hours48=10*12; //2 min
+var hours120=10*30; //5 min
+var hours144=10*36; //6 min
+var hours168=10*42; //7 min
+*/
+
+
+
+//today
+var today=parseInt(new Date().getTime()/1000);
+//first visited datetime
+var firstday=parseInt( parseInt($.cookie('cookfirsttime'))/1000);
+//different today and first vsisted day
+var diff=(today-firstday);
+//user visited and less than 48 hours,counter hidden
+if(hours48 > diff){
+alert('Already Visited: not passed 48 hours');
+//counting for show counter.
+mytimer=setInterval(function(){	
+	var todaynow=parseInt(new Date().getTime()/1000);
+	var diffx=(todaynow-firstday);
+	if(hours48 < diffx){
+		$('#timerwebx').show();
+       //alert('Already Visited:  passed 48 hours and and showing the counter');
+	}
+	
+	}, 1000);
+//clearInterval(myVar);
+}
+else{
+	//user already visited and passed more than 48 hours
+	
+
+	//show counter 72 hours count down (2 days to 5 days)
+	if(diff < hours120){
+		$('#timerwebx').show();
+       // alert('Already Visited:  passed 48 hours and and showing the counter');
+	}
+	//after 72 hours countdown redirect for 24 hours
+	if(diff > hours120  && diff < hours144){
+		//redirect
+		//alert('Already Visited:  passed 48+72 hours redirecting');
+		window.location=redirect;
+	}
+	//after that 24 hour pass stay on page
+	if(diff > hours144 && diff < hours168){
+		//alert('Already Visited:  passed 48+72+24 hours stay on page');
+		//stay on page
+	}
+	//after that 24 hour pass redirect as long as cookie alive
+	if(diff > hours168){
+		//redirect
+		//alert('Already Visited:  passed 48+72+24+24 redirecting this and further visits');
+		window.location=redirect;
+	}
+	
+	
+}
+deadline=firstday+hours24*5;
+var timerData={"timer":{"37":{"deadline":deadline}},"now":today,"end_time_timer":{"deadline":deadline}};
+}
+
+	
+
+</script> 
+<script type="text/javascript" src="timer.js"></script>
+
+
+
+
+
+</body>
+</html>
